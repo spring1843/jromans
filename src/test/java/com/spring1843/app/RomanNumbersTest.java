@@ -35,7 +35,6 @@ public class RomanNumbersTest extends TestCase {
         testInteger(70, "LXX");
         testInteger(80, "LXXX");
         testInteger(90, "XC");
-        testInteger(99, "XCIX");
         testInteger(100, "C");
         testInteger(200, "CC");
         testInteger(400, "CD");
@@ -54,6 +53,7 @@ public class RomanNumbersTest extends TestCase {
     public void testRegularNumbersLessThanFourThousand() {
         testInteger(25, "XXV");
         testInteger(79, "LXXIX");
+        testInteger(99, "XCIX");
         testInteger(101, "CI");
         testInteger(199, "CXCIX");
         testInteger(254, "CCLIV");
