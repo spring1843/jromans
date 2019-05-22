@@ -54,7 +54,6 @@ class RomanNumbers {
 
     /**
      * Using space, and other unicode connecting characters to represent larger numbers not fitting in roman letters
-     * I V X L C D M İV̇ẊL̇ĊḊṀÏV̈ẌL̈C̈D̈M̈I⃛V⃛X⃛L⃛C⃛D⃛M⃛
      */
     private String romanNumeralSequence() {
         final String romanLetters = "IVXLCDM";
