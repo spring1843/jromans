@@ -10,7 +10,7 @@ import java.net.InetSocketAddress;
 import java.util.Map;
 
 class WebService {
-    private static final String invalidRequest = "Invalid request. Example request: http://localhost:8080/romannumeral?query={integer}";
+    private static final String invalidRequest = "Invalid request. Example request: http://localhost:8080/romannumeral?query={integer} integer is a positive integer less than or equal to 2,200,000,000";
     public static Ops ops;
     private static RomanNumbers romanNumbers;
 
@@ -27,9 +27,9 @@ class WebService {
     static class RomanNumeral implements HttpHandler {
 
         public void handle(HttpExchange t) throws IOException {
-            int query = getQuery(t);
+            long query = getQuery(t);
 
-            if (query == -1) {
+            if (query == -1L) {
                 WebService.ops.metrics.reportEvent(WebService.ops.config.eventTypeFailedRomanNumericalConversion);
                 return;
             }
@@ -40,7 +40,7 @@ class WebService {
             APIEndpoint.writeResponse(t, 200, validResponse(response));
         }
 
-        private int getQuery(HttpExchange t) throws IOException {
+        private long getQuery(HttpExchange t) throws IOException {
             Map<String, String> queryMap = APIEndpoint.queryToMap(t);
 
             if (!queryMap.containsKey("query")) {
@@ -48,7 +48,13 @@ class WebService {
                 return -1;
             }
             String query = queryMap.get("query");
-            return Integer.parseInt(query);
+
+            long output = Long.parseLong(query);
+            if (output > 2200000000L || output < 0) {
+                APIEndpoint.writeResponse(t, 400, APIEndpoint.errorResponse(invalidRequest));
+                return -1;
+            }
+            return output;
         }
 
         private String validResponse(String response) {
